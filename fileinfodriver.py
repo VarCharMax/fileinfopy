@@ -12,6 +12,7 @@ HTMLFileInfo, MPGFileInfo, DOCFileInfo. Each class is completely responsible for
 parsing its files appropriately; see MP3FileInfo for example.
 
 TODO: Make driver agnostic as to file extensions.
+        Write at least one more driver, e.g. JPGFileInfo.
 """
 import os
 from string import Template
