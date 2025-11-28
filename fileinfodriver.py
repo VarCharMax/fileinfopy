@@ -1,11 +1,12 @@
 """Framework for getting filetype-specific metadata.
 Instantiate appropriate class with filename. Returned object acts like a
-dictionary, with key-value pairs for each piece of metadata.
-import fileinfo
-info = fileinfo.MP3FileInfo("/music/ap/mahadeva.mp3")
-print("\n".join(["%s=%s" % (k, v) for k, v in info.items()]))
-Or use listdirectory function to get info on all files in a directory.
-for info in fileinfo.listdirectory("/music/ap/", [".mp3"]):
+dictionary, with key-value pairs for each piece of metadata:
+    import mp3fileinfo
+    info = mp3fileinfo.MP3FileInfo("C:/temp/01 Born In Chicago.mp3")
+    print("\n".join(["%s=%s" % (k, v) for k, v in info.items()]))
+Or use listdirectory function to get info on all files in a directory:
+    driver = FileInfoDriver()
+    for info in driver.listdirectory("C:/temp/", [".mp3"]):
 ...
 Framework can be extended by adding classes for particular file types, e.g.
 HTMLFileInfo, MPGFileInfo, DOCFileInfo. Each class is completely responsible for
