@@ -14,6 +14,7 @@ parsing its files appropriately; see MP3FileInfo for example.
 TODO: Make driver agnostic as to file extensions.
 """
 import os
+from string import Template
 import sys
 import importlib.util
 from fileinfo import FileInfo
@@ -59,9 +60,12 @@ class FileInfoDriver:
         filelist = [os.path.join(directory, f) for f in filelist
                     if os.path.splitext(f)[1] in fileextlist]
 
+        def file_ext(path):
+            return os.path.splitext(path)[1].upper()[1:]
+
         def getfileinfoclass(filename):
-            "get file info class according to filename extension"
-            subclass = f"{os.path.splitext(filename)[1].upper()[1:]}FileInfo" # e.g. .mp3 -> MP3FileInfo
+            # e.g. .mp3 -> MP3FileInfo
+            subclass = Template('${ext}FileInfo').substitute(ext=file_ext(filename))
             modulename = subclass.lower() # e.g. mp3fileinfo
             # Use cached module if already loaded.
             modtmp = self.__getmodule__(modulename)
