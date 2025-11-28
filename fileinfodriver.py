@@ -13,7 +13,7 @@ HTMLFileInfo, MPGFileInfo, DOCFileInfo. Each class is completely responsible for
 parsing its files appropriately; see MP3FileInfo for example.
 
 TODO: Make driver agnostic as to file extensions.
-        Write at least one more driver, e.g. JPGFileInfo.
+      Write at least one more driver, e.g. JPGFileInfo.
 """
 import os
 from string import Template
@@ -27,7 +27,7 @@ class FileInfoDriver:
     def __init__(self):
         self.moduledict = {}
 
-    def __getmodule__(self, name):
+    def __getmodule(self, name):
         """_summary_
 
         Args:
@@ -37,7 +37,7 @@ class FileInfoDriver:
             _type_: _description_
         """
         return self.moduledict.get(name) or None
-    def __savemodule__(self, name, module):
+    def __savemodule(self, name, module):
         """_summary_
 
         Args:
@@ -46,7 +46,7 @@ class FileInfoDriver:
         """
         self.moduledict[name] = module
 
-    def __import_from_path__(self, module_name, file_path):
+    def __import_from_path(self, module_name, file_path):
         """Import a module given its name and file path."""
         spec = importlib.util.spec_from_file_location(module_name, file_path)
         module = importlib.util.module_from_spec(spec)
@@ -70,15 +70,15 @@ class FileInfoDriver:
             subclass = Template('${ext}FileInfo').substitute(ext=file_ext(filename))
             modulename = subclass.lower() # e.g. mp3fileinfo
             # Use cached module if already loaded.
-            modtmp = self.__getmodule__(modulename)
+            modtmp = self.__getmodule(modulename)
             if modtmp:
                 module = modtmp
             else:
                 try:
                     # Otherwise try to load module from file.
-                    module = self.__import_from_path__(subclass,
+                    module = self.__import_from_path(subclass,
                         os.path.join(os.path.dirname(__file__), f"{modulename}.py"))
-                    self.__savemodule__(modulename, module)
+                    self.__savemodule(modulename, module)
                 except ModuleNotFoundError:
                     return FileInfo
 

@@ -4,7 +4,8 @@
 from fileinfo import FileInfo, stripnulls
 
 class MP3FileInfo(FileInfo):
-    "store ID3v1.0 MP3 tags"
+    "Parse ID3v1.0 MP3 tags"
+
     tagDataMap = {"title"   : (  3,  33, stripnulls),
                   "artist"  : ( 33,  63, stripnulls),
                   "album"   : ( 63,  93, stripnulls),
