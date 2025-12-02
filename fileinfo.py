@@ -3,6 +3,8 @@
     Returns:
         _type_: _description_
 """
+from typing import Any
+
 class FileInfo(dict):
     """Initialize this parent class key ["name"] with filename value."""
     def __init__(self, filename=None):
@@ -10,6 +12,6 @@ class FileInfo(dict):
             We just redefine the init here for our own purposes."""
         self["name"] = filename
 
-def stripnulls(data):
+def stripnulls(data) -> Any:
     "strip whitespace and nulls"
     return data.replace("\00", " ").strip()

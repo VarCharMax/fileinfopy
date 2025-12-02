@@ -29,7 +29,7 @@ class MP3FileInfo(FileInfo):
         except IOError:
             pass
 
-    def __setitem__(self, key, item):
+    def __setitem__(self, key, item) -> None:
         """Called after parent dictionary is initialised with first key ["name"].
             Then goes on to parse additional metadata.
         Args:
