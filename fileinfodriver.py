@@ -25,34 +25,13 @@ from fileinfo import FileInfo
 class FileInfoDriver:
     """_summary_
     """
-    def __init__(self) -> None:
-        self.moduledict = {}
-
-    def __getmodule(self, name) -> FileInfo | None:
-        """_summary_
-
-        Args:
-            name (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        return self.moduledict.get(name) or None
-    def __savemodule(self, name, module) -> None:
-        """_summary_
-
-        Args:
-            name (_type_): _description_
-            module (_type_): _description_
-        """
-        self.moduledict[name] = module
-
     def __import_from_path(self, module_name, file_path) -> ModuleType | None:
         """Import a module given its name and file path."""
         spec = importlib.util.spec_from_file_location(module_name, file_path)
         if spec:
             module = importlib.util.module_from_spec(spec)
-            sys.modules[module_name] = module
+            # Add to internal imported modules list.
+            sys.modules[module_name.lower()] = module
             spec.loader.exec_module(module) # type: ignore
             return module
         raise ModuleNotFoundError()
@@ -73,15 +52,14 @@ class FileInfoDriver:
             subclass = Template('${ext}FileInfo').substitute(ext=file_ext(filename))
             modulename = subclass.lower() # e.g. mp3fileinfo
             # Use cached module if already loaded.
-            modtmp = self.__getmodule(modulename)
-            if modtmp:
-                module = modtmp
+
+            if modulename in sys.modules:
+                module = sys.modules[modulename]
             else:
                 try:
                     # Otherwise try to load module from file.
                     module = self.__import_from_path(subclass,
                         os.path.join(os.path.dirname(__file__), f"{modulename}.py"))
-                    self.__savemodule(modulename, module)
                 except ModuleNotFoundError:
                     return FileInfo
 
