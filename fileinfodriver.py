@@ -52,7 +52,6 @@ class FileInfoDriver:
             subclass = Template('${ext}FileInfo').substitute(ext=file_ext(filename))
             modulename = subclass.lower() # e.g. mp3fileinfo
             # Use cached module if already loaded.
-
             if modulename in sys.modules:
                 module = sys.modules[modulename]
             else:
