@@ -33,11 +33,12 @@ class FileInfoDriver:
 
     def __import_from_path(self, module_name: str, file_path: str) -> ModuleType:
         """Import a module given its name and file path."""
+        module_name = module_name.lower()
         spec = importlib.util.spec_from_file_location(module_name, file_path)
         if spec:
             module = importlib.util.module_from_spec(spec)
             # Add to internal imported modules list.
-            sys.modules[module_name.lower()] = module
+            sys.modules[module_name] = module
             spec.loader.exec_module(module)  # type: ignore
             return module
         raise ModuleNotFoundError()
