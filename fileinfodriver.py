@@ -74,6 +74,7 @@ class FileInfoDriver:
                 except ModuleNotFoundError:
                     return FileInfo
 
+            # Find and return class from module.
             return hasattr(module, subclass) and getattr(module, subclass) or FileInfo
 
         # Get custom dictionary object for specific file type,
