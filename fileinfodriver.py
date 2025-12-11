@@ -18,6 +18,8 @@ TODO: Make driver agnostic as to file extensions.
       with its resources with each loop.
 """
 
+# pylint: disable=C0103
+
 import sys
 import os
 import importlib.util
